@@ -115,6 +115,10 @@
 * Close a WAL file before another thread deletes it.
 * Fix an assertion failure `IsFlushPending() == true` caused by one bg thread releasing the db mutex in ~ColumnFamilyData and another thread clearing `flush_requested_` flag.
 
+## 6.1.2 (6/4/2019)
+### Bug Fixes
+* Fix flush's/compaction's merge processing logic which allowed `Put`s covered by range tombstones to reappear. Note `Put`s may exist even if the user only ever called `Merge()` due to an internal conversion during compaction to the bottommost level.
+
 ## 6.1.1 (4/9/2019)
 ### New Features
 * When reading from option file/string/map, customized comparators and/or merge operators can be filled according to object registry.
