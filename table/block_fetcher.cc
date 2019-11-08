@@ -58,11 +58,14 @@ inline void BlockFetcher::CheckBlockChecksum() {
             file_->file_name() + " offset " + ToString(handle_.offset()) +
             " size " + ToString(block_size_));
     }
-    if (status_.ok() && actual != value) {
+    if ((status_.ok() && actual != value)) {
       status_ = Status::Corruption(
           "block checksum mismatch: expected " + ToString(actual) + ", got " +
           ToString(value) + "  in " + file_->file_name() + " offset " +
-          ToString(handle_.offset()) + " size " + ToString(block_size_));
+          ToString(handle_.offset()) + " size " + ToString(block_size_) + 
+          " prefetch " + ToString(got_from_prefetch_buffer_) +
+          " footer " + footer_.ToString() +
+          " data: " + slice_.ToString(true));
     }
   }
 }
